@@ -2,7 +2,7 @@
 
       implicit none
 
-      integer :: start_level,num_sim,level,i,num_books, &
+      integer :: start_level,num_sim,level,i,num_books_used, &
                  use_de_lvl,num_de_used        
       double precision :: rand_number,avg,tot_de,rate
 ! declare array to store number of times a certain number of books was
@@ -35,7 +35,7 @@
       
       do i = 1,num_sim
         level = start_level
-        num_books = 0
+        num_books_used = 0
         num_de_used = 0
         do while (level .lt. 15)
         
@@ -55,9 +55,9 @@
              level = enchant_with_essence(level,rand_number,rate)
              num_de_used = num_de_used + 1
           endif
-          num_books = num_books + 1
+          num_books_used = num_books_used + 1
         enddo
-        books_needed(num_books) = books_needed(num_books) + 1
+        books_needed(num_books_used) = books_needed(num_books_used) + 1
         tot_de = tot_de + num_de_used
       enddo
 
