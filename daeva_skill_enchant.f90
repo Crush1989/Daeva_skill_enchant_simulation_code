@@ -3,7 +3,7 @@
       implicit none
 
       integer :: start_level,num_sim,level,i,num_books, &
-                 use_de_lvl,num_de        
+                 use_de_lvl,num_de_used        
       double precision :: rand_number,avg,tot_de,rate
 ! declare array to store number of times a certain number of books was
 ! needed to get the skill to 15. Picking 500 as the max amount since
@@ -36,7 +36,7 @@
       do i = 1,num_sim
         level = start_level
         num_books = 0
-        num_de = 0
+        num_de_used = 0
         do while (level .lt. 15)
         
           call random_number(rand_number)
@@ -53,12 +53,12 @@
              level = enchant_no_essence(level,rand_number,rate)
           else if ( level .ge. use_de_lvl ) then
              level = enchant_with_essence(level,rand_number,rate)
-             num_de = num_de + 1
+             num_de_used = num_de_used + 1
           endif
           num_books = num_books + 1
         enddo
         books_needed(num_books) = books_needed(num_books) + 1
-        tot_de = tot_de + num_de
+        tot_de = tot_de + num_de_used
       enddo
 
       tot_de = tot_de / num_sim
