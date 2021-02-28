@@ -10,6 +10,7 @@
 ! that is extremely unlikely you'll ever be this unlucky!
       integer, dimension(500) :: books_needed
       integer :: enchant_no_essence,enchant_with_essence
+      double precision :: get_rate
 
 
 
@@ -33,38 +34,31 @@
 
       
       do i = 1,num_sim
-       level = start_level
-       num_books = 0
-       num_de = 0
-       do while (level .lt. 15)
-        call random_number(rand_number)
+        level = start_level
+        num_books = 0
+        num_de = 0
+        do while (level .lt. 15)
+        
+          call random_number(rand_number)
 
 ! Found these rates on the forum (from KR), not sure if they are correct.
-        if ( level .eq. 0 ) then
-              rate = 1.0
-        else if ( level .gt. 0  .and. level .lt. 5 ) then
-              rate = 0.9
-        else if ( level .ge. 5  .and. level .lt. 10) then
-              rate = 0.7
-        else if ( level .ge. 10 .and. level .lt. 15) then
-              rate = 0.6
-        endif
+          rate = get_rate(level)
 
 ! 10 is a safe level, never use a daeva essence here!       
-        if (level .eq. 10) then
+          if (level .eq. 10) then
 ! use enchant_with_essence function but don't increment number 
 ! of daeva essences used.
-           level = enchant_with_essence(level,rand_number,rate)
-        else if ( level .lt. use_de ) then
-           level = enchant_no_essence(level,rand_number,rate)
-        else if ( level .ge. use_de ) then
-           level = enchant_with_essence(level,rand_number,rate)
-           num_de = num_de + 1
-        endif
-        num_books = num_books + 1
-       enddo
-       books_needed(num_books) = books_needed(num_books) + 1
-       tot_de = tot_de + num_de
+             level = enchant_with_essence(level,rand_number,rate)
+          else if ( level .lt. use_de ) then
+             level = enchant_no_essence(level,rand_number,rate)
+          else if ( level .ge. use_de ) then
+             level = enchant_with_essence(level,rand_number,rate)
+             num_de = num_de + 1
+          endif
+          num_books = num_books + 1
+        enddo
+        books_needed(num_books) = books_needed(num_books) + 1
+        tot_de = tot_de + num_de
       enddo
 
       tot_de = tot_de / num_sim
@@ -80,10 +74,12 @@
       print*, 'average number of books used: ', avg
 
 
-        
       end program daevaskillenchant 
 
 
+
+
+! Function that enchants daeva skills with no daeva essences
       function enchant_no_essence (ol,rn,r)
 
       implicit none
@@ -97,9 +93,9 @@
               enchant_no_essence = ol - 1
       endif
 
-
       end function enchant_no_essence
 
+! Function that enchants daeva skills with daeva essences
       function enchant_with_essence (ol,rn,r)
 
       implicit none
@@ -116,5 +112,25 @@
 
       end function enchant_with_essence
 
+! Function that gets the correct enchant rate for a given level
+      function get_rate (l)
 
+      implicit none
+
+      integer :: l
+      double precision :: get_rate
+
+      ! Found these rates on the forum (from KR), not sure if they are correct.
+        if ( l .eq. 0 ) then
+              get_rate = 1.0
+        else if ( l .gt. 0  .and. l .lt. 5 ) then
+              get_rate = 0.9
+        else if ( l .ge. 5  .and. l .lt. 10) then
+              get_rate = 0.7
+        else if ( l .ge. 10 .and. l .lt. 15) then
+              get_rate = 0.6
+        endif
+
+
+      end function get_rate
 
