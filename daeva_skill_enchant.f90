@@ -3,7 +3,7 @@
       implicit none
 
       integer :: start_level,num_sim,level,i,num_books, &
-                 use_de,num_de        
+                 use_de_lvl,num_de        
       double precision :: rand_number,avg,tot_de,rate
 ! declare array to store number of times a certain number of books was
 ! needed to get the skill to 15. Picking 500 as the max amount since
@@ -18,7 +18,7 @@
       read(*,*) start_level
       print*, "Enter the level you will start using daeva essences. &
             If you won't use any then enter 15:"
-      read(*,*) use_de
+      read(*,*) use_de_lvl
       print*, "How many simulations do you want to do? I suggest &
             doing between 1,000 and 1,000,000: "
       read(*,*) num_sim
@@ -49,9 +49,9 @@
 ! use enchant_with_essence function but don't increment number 
 ! of daeva essences used.
              level = enchant_with_essence(level,rand_number,rate)
-          else if ( level .lt. use_de ) then
+          else if ( level .lt. use_de_lvl ) then
              level = enchant_no_essence(level,rand_number,rate)
-          else if ( level .ge. use_de ) then
+          else if ( level .ge. use_de_lvl ) then
              level = enchant_with_essence(level,rand_number,rate)
              num_de = num_de + 1
           endif
