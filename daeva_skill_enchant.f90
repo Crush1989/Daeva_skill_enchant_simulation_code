@@ -1,5 +1,14 @@
       program daevaskillenchant
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!                                                                     !
+! This program calculates the average number of daeva skill books and !
+! daeva essences needed to enchant a skill to +15 subject to the      !  
+! user's input parameters that they will be prompted to enter at the  !
+! start of the program.                                               !
+!                                                                     ! 
+! Written by: Crush 2/28/2021                                         !
+!                                                                     !
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!              
       implicit none
 
       integer :: start_level,num_sim,level,i,num_books_used, &
@@ -111,6 +120,8 @@
       return
       end function get_rate
 
+! This subroutine enchants the skill with the proper rates and with or
+! without daeva essences depending on the user's input.      
       subroutine enchant (l,rn,r,udel,ndeu)
 
       implicit none
@@ -119,7 +130,7 @@
       double precision :: rn,r
       integer :: enchant_no_essence,enchant_with_essence 
 
-      ! 10 is a safe level, never use a daeva essence here!       
+! 10 is a safe level, never use a daeva essence here!       
           if (l .eq. 10) then
 ! use enchant_with_essence function but don't increment number 
 ! of daeva essences used.
@@ -132,7 +143,7 @@
           endif
       return
       end
-
+! This subroutine gets the user's input parameters
       subroutine get_user_input (sl,udel,ns)
 
       implicit none
